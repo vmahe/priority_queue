@@ -1,11 +1,9 @@
+/*
+ * Priority queue lib.
+ */
+
 #include "priority_queue.h"
 
-static void swap (int *a, int *b)
-{
-    int tmp = *a;
-    *a = *b;
-    *b = tmp;
-}
 
 static void min_heapify (int *arr, int n, int i)
 {
