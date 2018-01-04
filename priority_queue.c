@@ -51,10 +51,20 @@ static void max_heapify (int *arr, int n, int i)
 priority_queue_t *pq_init (bool min_heap)
 {
     priority_queue_t *obj = calloc(1, sizeof(priority_queue_t));
+    if (!obj) {
+        return (NULL);
+    }
+    
     obj->min_heap = min_heap;
     obj->size = DEFAULT_PQ_SIZE; //Default initial size of the queue
     obj->count = 0;
+    
     obj->q = calloc(DEFAULT_PQ_SIZE, sizeof(int));
+    if (!obj->q) {
+        free(obj);
+        return (NULL);
+    }
+    
     return (obj);
 }
 
@@ -65,8 +75,10 @@ priority_queue_t *pq_init (bool min_heap)
  */
 void pq_destroy (priority_queue_t *obj)
 {
-    free(obj->q);
-    free(obj);
+    if (obj) {
+            if (obj->q) free(obj->q);
+        free(obj);
+    }
 }
 
 /*
@@ -76,19 +88,19 @@ void pq_destroy (priority_queue_t *obj)
  */
 bool pq_is_empty (priority_queue_t *obj)
 {
-    return (obj->count == 0);
+    return (obj && obj->count == 0);
 }
 
 /*
  * pq_get_size(): Check the current queue size. Please note that this is to check queue
- *                and not the number of elements that are pushed into the queue. Also, 
+ *                and not the number of items that are pushed into the queue. Also, 
  *                keep in mind that the queue size can change dynamically.
  *      Input: Pointer to object of type priority_queue_t.
  *      Output: Integer value of current queue size.
  */
 int pq_get_size (priority_queue_t *obj)
 {
-    return (obj->size);
+    return (obj ? obj->size : 0);
 }
 
 /*
@@ -98,7 +110,7 @@ int pq_get_size (priority_queue_t *obj)
  */
 int pq_get_count (priority_queue_t *obj)
 {
-    return (obj->count);
+    return (obj ? obj->count : 0);
 }
 
 /*
@@ -108,6 +120,7 @@ int pq_get_count (priority_queue_t *obj)
  */
 int pq_peek (priority_queue_t *obj)
 {
+    assert(obj);
     return (obj->q[0]);
 }
 
@@ -120,6 +133,7 @@ void pq_push (priority_queue_t *obj, int num)
 {
     int i;
     
+    assert(obj);
     if (obj->count == obj->size) {
         obj->q = realloc(obj->q, obj->size*2*sizeof(int));
         obj->size *= 2;
@@ -149,8 +163,10 @@ void pq_push (priority_queue_t *obj, int num)
  */
 int pq_pop (priority_queue_t *obj)
 {
-    int ret = obj->q[0];
+    int ret;
     
+    assert(obj);
+    ret = obj->q[0];
     obj->count--;
     obj->q[0] = obj->q[obj->count];
     if (obj->size > DEFAULT_PQ_SIZE && obj->count*4 <= obj->size) {
