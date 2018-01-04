@@ -15,5 +15,12 @@ typedef struct priority_queue_t_ {
     int *q;
 } priority_queue_t;
 
+static inline void swap (int *a, int *b)
+{
+    int tmp = *a;
+    *a = *b;
+    *b = tmp;
+}
+
 #endif //PRIORITY_QUEUE_H_
 
