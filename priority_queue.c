@@ -77,7 +77,7 @@ priority_queue_t *pq_init (bool min_heap)
 void pq_destroy (priority_queue_t *obj)
 {
     if (obj) {
-            if (obj->q) free(obj->q);
+        if (obj->q) free(obj->q);
         free(obj);
     }
 }
@@ -89,7 +89,8 @@ void pq_destroy (priority_queue_t *obj)
  */
 bool pq_is_empty (priority_queue_t *obj)
 {
-    return (obj && obj->count == 0);
+    assert(obj);
+    return (obj->count == 0);
 }
 
 /*
@@ -101,7 +102,8 @@ bool pq_is_empty (priority_queue_t *obj)
  */
 int pq_get_size (priority_queue_t *obj)
 {
-    return (obj ? obj->size : 0);
+    assert(obj);
+    return (obj->size);
 }
 
 /*
@@ -111,7 +113,8 @@ int pq_get_size (priority_queue_t *obj)
  */
 int pq_get_count (priority_queue_t *obj)
 {
-    return (obj ? obj->count : 0);
+    assert(obj);
+    return (obj->count);
 }
 
 /*
