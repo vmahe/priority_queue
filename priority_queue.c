@@ -3,6 +3,7 @@
  */
 
 #include "priority_queue.h"
+#include <assert.h>
 
 
 /*
